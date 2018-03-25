@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+   <title>Whomst</title>
+
+   <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js" integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ" crossorigin="anonymous"></script>
+
+<body>
+  <table border="1">
+    <tr>
+      <th>Host</th>
+      <th>IP Address</th>
+      <th>MAC Address</th>
+      <th>Vendor</th>
+      <th>Comment</th>
+      <th>Zeroconf</th>
+    </tr>
+  <% data.each do |name, nodes| %>
+    <% nodes.each do |node| %>
+      <tr>
+        <% if node == nodes.first %>
+          <td valign="top" rowspan="<%= nodes.count %>"><%= name %></td>
+        <% end %>
+        <td><%= node["IpAddress"] %></td>
+        <td><%= node["STRING"] %></td>
+        <td><%= node["vendor"] %></td>
+        <td><%= node["comment"] %></td>
+        <% if node == nodes.first %>
+          <td valign="top" rowspan="<%= nodes.count %>"><pre><%= node["zeroconf"] %></pre></td>
+        <% end %>
+      </tr>
+    <% end %>
+  <% end %>
+  </table>
+</body>
+</html>
