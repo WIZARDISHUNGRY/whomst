@@ -10,7 +10,7 @@ Quick and dirty Sinatra app for SNMP polling an Apple Airport Express base stati
 
 ## Instructions
 
-1. Make a file called `hosts` with MAC address or host in the
+1. Make a file called `hosts` with MAC address or host in the left hand field, then a space and a free-form comment
 ```
 DE:AD:BE:EF:12:34 Raspberry Pi 1
 10.10.42.2 Raspberry Pi 1
