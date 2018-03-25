@@ -9,25 +9,29 @@
 <body>
   <table border="1">
     <tr>
+      <th>Up</th>
       <th>Host</th>
       <th>IP Address</th>
       <th>MAC Address</th>
       <th>Vendor</th>
       <th>Comment</th>
+      <th>DHCP ID</th>
       <th>Zeroconf</th>
     </tr>
   <% data.each do |name, nodes| %>
     <% nodes.each do |node| %>
       <tr>
+        <td><%= node[:up] ? "✅" : "⛔️" %></td>
         <% if node == nodes.first %>
           <td valign="top" rowspan="<%= nodes.count %>"><%= name %></td>
         <% end %>
-        <td><%= node["IpAddress"] %></td>
-        <td><%= node["STRING"] %></td>
-        <td><%= node["vendor"] %></td>
-        <td><%= node["comment"] %></td>
+        <td><%= node[:ip] %></td>
+        <td><%= node[:mac] %></td>
+        <td><%= node[:vendor] %></td>
+        <td><%= node[:comment] %></td>
+        <td><%= node[:dhcp] %></td>
         <% if node == nodes.first %>
-          <td valign="top" rowspan="<%= nodes.count %>"><pre><%= node["zeroconf"] %></pre></td>
+          <td valign="top" rowspan="<%= nodes.count %>"><pre><%= node[:zeroconf] %></pre></td>
         <% end %>
       </tr>
     <% end %>

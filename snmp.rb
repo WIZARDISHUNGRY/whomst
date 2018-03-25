@@ -11,33 +11,45 @@ class Snmp
       # enterprises.63.501.3.3.2.1.1.17.48.48.58.53.54.58.67.68.58.65.54.58.53.57.58.52.65 = STRING: "00:56:CD:A6:59:4A"
       parts = line.split ' = '
       key = parts[0].match /\.\d*\.\d*$/
-      word = parts[1].match /^([^ ]*):/
-      next unless word and word[1]
-      word = word[1]
-      value = (parts[1].match /: \"?([^"]*)\"?$/)[1]
-      dict = data.fetch key.to_s, {}
-      dict[word.to_s] = value.to_s
+      next unless parts[1]
+      value = (parts[1].match /: \"?([^"]*)\"?$/).to_a.fetch 1, ''
+      dict = data.fetch key.to_s, []
+      dict.push value.to_s
       data[key.to_s] = dict
     end
+    data = data.values.map do |dict|
+      [
+        :mac,
+        :ip,
+        :dhcp,
+        :what
+      ].zip(dict).to_h
+    end
     grouped = {}
-    data.values.map do |d|
-      d['vendor'] = mac_lookup d['STRING']
-      key = host_lookup(d['STRING']) || host_lookup(d["IpAddress"]) || d["IpAddress"]
+    data.map do |d|
+      d[:vendor] = mac_lookup d[:mac]
+      key = host_lookup(d[:mac]) || host_lookup(d[:ip]) || host_lookup(d[:dhcp]) || d[:ip]
       parts = key.split ' #',2
       key = parts[0]
       comment = parts[1] || ''
-      d['comment'] = comment
+      d[:comment] = comment
+      d[:up] = ping d[:ip]
       hosts = grouped.fetch key, []
       hosts.push d
       grouped[key] = hosts
     end
     grouped = grouped.sort_by do |key,nodes|
-      (nodes.map { |node| (IPAddr.new node["IpAddress"]).to_i }).sort.first
+      (nodes.map { |node| (IPAddr.new node[:ip]).to_i }).sort.first
     end
     grouped.each do |key,nodes|
       node = nodes.first
-      node["zeroconf"] = zeroconf_lookup node["IpAddress"]
+      node[:zeroconf] = zeroconf_lookup node[:ip]
     end
+  end
+
+  def ping(addr)
+    addr = (IPAddr.new addr).to_s # sanity check
+    system "ping -c 10 -i 0.1 -t 1 -o #{addr}"
   end
 
   def zeroconf_lookup(addr)

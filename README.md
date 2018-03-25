@@ -7,6 +7,7 @@ Quick and dirty Sinatra app for SNMP polling an Apple Airport Express base stati
 * `smnpwalk`
 * `nmap` for MAC prefix database
 * `dig` for Zeroconf
+* `ping` to test for host online
 
 ## Instructions
 
@@ -15,8 +16,7 @@ Quick and dirty Sinatra app for SNMP polling an Apple Airport Express base stati
 DE:AD:BE:EF:12:34 Raspberry Pi 1
 10.10.42.2 Raspberry Pi 1
 DE:AD:BE:EF:12:34 Power Mac G4
-DE:AD:BE:EF:12:34	Thinkpad x201
-
+DE:AD:BE:EF:12:34	Thinkpad
 ```
 2. `bundle install`
 3. Run `ruby app.rb IPADDRESS_OF_AIRPORT` and navigate to http://localhost:4567/
@@ -110,6 +110,7 @@ Those slow dig calls could be parallelized with a better language.
 
 * [ ] Historical info (lastlog)
 * [ ] Machines stick around for a long time (DHCP lifetime?)
+* [ ] non-DHCP hosts?
 
 <!--
 Anonymize MAC addresses:
