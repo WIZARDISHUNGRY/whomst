@@ -2,8 +2,8 @@ GEM
   remote: https://rubygems.org/
   specs:
     ipaddr (1.2.0)
-    rack (1.6.4)
-    rack-protection (1.5.3)
+    rack (1.6.9)
+    rack-protection (1.5.5)
       rack
     sinatra (1.4.7)
       rack (~> 1.5)
@@ -16,6 +16,7 @@ PLATFORMS
 
 DEPENDENCIES
   ipaddr
+  rack-protection (~> 1.5.5)
   sinatra
 
 BUNDLED WITH
