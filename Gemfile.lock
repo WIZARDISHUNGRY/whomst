@@ -2,20 +2,21 @@ GEM
   remote: https://rubygems.org/
   specs:
     ipaddr (1.2.0)
-    rack (1.6.9)
+    rack (1.6.11)
     rack-protection (1.5.5)
       rack
-    sinatra (1.4.7)
+    sinatra (1.4.8)
       rack (~> 1.5)
       rack-protection (~> 1.4)
       tilt (>= 1.3, < 3)
-    tilt (2.0.2)
+    tilt (2.0.8)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   ipaddr
+  rack (~> 1.6.11)
   rack-protection (~> 1.5.5)
   sinatra
 
